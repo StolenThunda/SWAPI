@@ -74,6 +74,14 @@ module.exports = function (/* ctx */) {
 
     // Full list of options: https://v1.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
     devServer: {
+       proxy: {
+        "/api": {
+          target: "http://localhost:3000",
+          changeOrigin: true,
+          logLevel: "debug",
+          pathRewrite: { "^/api": "" }
+         }
+      },
       https: false,
       port: 8080,      
       watchOptions: {

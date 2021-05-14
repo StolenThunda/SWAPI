@@ -41,7 +41,7 @@
     </q-drawer>
 
     <q-page-container>
-      <router-view />
+      <router-view :films="films" />
     </q-page-container>
   </q-layout>
 </template>
@@ -97,6 +97,7 @@ const linksData = [
 export default {
   name: 'MainLayout',
   components: { EssentialLink },
+  props: ['films'],
   data() {
     return {
       leftDrawerOpen: false,
