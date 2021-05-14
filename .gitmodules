@@ -1,0 +1,3 @@
+[submodule "vercel-swapi-json-server"]
+	path = vercel-swapi-json-server
+	url = https://github.com/StolenThunda/vercel-swapi-json-server.git
