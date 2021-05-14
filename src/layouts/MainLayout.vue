@@ -18,7 +18,7 @@
         <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
-
+<!--
     <q-drawer
       v-model="leftDrawerOpen"
       show-if-above
@@ -38,7 +38,7 @@
           v-bind="link"
         />
       </q-list>
-    </q-drawer>
+    </q-drawer> -->
 
     <q-page-container>
       <router-view :films="films" />
@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import EssentialLink from 'components/EssentialLink.vue';
+// import EssentialLink from 'components/EssentialLink.vue';
 
 const linksData = [
   {
@@ -96,7 +96,7 @@ const linksData = [
 
 export default {
   name: 'MainLayout',
-  components: { EssentialLink },
+  // components: { EssentialLink },
   props: ['films'],
   data() {
     return {
