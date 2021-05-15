@@ -5,13 +5,13 @@
       transition-prev="slide-right"
       transition-next="slide-left"
       infinite
-      swipeable
       animated
       navigation
       padding
+      control-type="regular"
+      control-color="primary"
       arrows
-      height="100%"
-      class="bg-blue-9 shadow-1 rounded-borders absolute-full"
+      class="full-height bg-grey-2 shadow-1 rounded-borders absolute-full"
     >
      <q-carousel-slide
         :name="'slide-' + film.id"

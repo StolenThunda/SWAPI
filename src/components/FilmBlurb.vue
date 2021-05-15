@@ -21,15 +21,22 @@
 
        <q-card-section v-if="relatedFields">
         <q-list v-for="field in relatedFields" :key="field[0]" dense class="bg-primary q-ma-xs">
+          <!-- :expand-icon="rebel_empire_emblem.jpg" -->
           <q-expansion-item
-        expand-icon-toggle
+          accordion
         expand-separator
+        switch-toggle-side
         :label="field[0]"
-        class="text-capitalize text-weight-bold"
+        class="text-capitalize text-center text-weight-bold"
+        dark dense
       >
-      <base-carousel :category="field[0]" :items="field[1]">
-        {{ field[1] }}
-      </base-carousel>>
+      <template #header class="">
+          <q-badge color="accent" floating transparent>{{ field[1].length }} </q-badge>
+         <!-- <q-space /> -->
+        {{ field[0]}}
+      </template>
+      <data-detail :category="field[0]" :arrayOfIDs="field[1]">
+      </data-detail>
 
           </q-expansion-item>
         </q-list>
@@ -39,24 +46,22 @@
 </template>
 
 <script>
-import BaseCarousel from './BaseCarousel.vue';
+import DataDetail from './DataDetail.vue';
 
 export default {
-  components: { BaseCarousel },
+  components: { DataDetail },
   name: 'FilmBlurb',
   props: ['film'],
   computed: {
     imageSrc() {
       const defaultImageName = this.film.title.replaceAll(' ', '_').toLowerCase();
       const imgSrc = `api/${this.film.imag ? this.film.image : `${defaultImageName}.jpg`}`;
-      console.log(defaultImageName, imgSrc);
       return imgSrc;
     },
     relatedFields() {
       const fieldEntries = Object.entries(this.film);
       const relationalFields = fieldEntries.filter(([, v]) => Array.isArray(v));
       return relationalFields;
-      // return Object.fromEntries(relationalFields);
     },
   },
   methods: {

@@ -1,37 +1,30 @@
 /* eslint-disable no-await-in-loop */ /* eslint-disable no-plusplus */
 <template>
   <div v-if="details.length">
-    <q-carousel
-      v-model="slide"
-      transition-prev="slide-right"
-      transition-next="slide-left"
-      animated
-      padding
-      arrows
-      autoplay
-      height="150px"
-      control-color="primary"
-      class="rounded-borders"
+    <q-scroll-area
+      horizontal
+      style="height: 150px;"
+      class="bg-grey-1 rounded-borders"
     >
-      <q-carousel-slide
-        v-for="detail in details"
-        :key="detail.id"
-        :name="detail.name"
-        class="column no-wrap flex-center"
-      >
-       <starship-detail :detail="detail" />
-      </q-carousel-slide>
-    </q-carousel>
+      <div class="row no-wrap">
+        <div v-for="detail in details" :key="detail.id" style="width: 150px" class="q-pa-sm">
+        <starship-detail  :detail="detail" />
+        <!-- <starship-detail v-if="category === 'starships'" :detail="detail" /> -->
+        <people-detail v-if="category === 'people'" :detail="detail" />
+        </div>
+      </div>
+    </q-scroll-area>
   </div>
 </template>
 
 <script>
 import StarshipDetail from './StarshipDetail.vue';
+import PeopleDetail from './PeopleDetail.vue';
 
 export default {
-  components: { StarshipDetail },
-  name: 'BaseCarousel',
-  props: ['category', 'items'],
+  components: { StarshipDetail, PeopleDetail },
+  name: 'DataDetail',
+  props: ['category', 'arrayOfIDs'],
   data: () => ({
     context: null,
     details: [],
@@ -41,8 +34,8 @@ export default {
     this.context = this.category === 'characters' ? 'people' : this.category;
     let i = 0;
     // eslint-disable-next-line no-plusplus
-    for (i = 0; i < this.items.length - 1; i++) {
-      const id = this.items[i];
+    for (i = 0; i < this.arrayOfIDs.length - 1; i++) {
+      const id = this.arrayOfIDs[i];
       // eslint-disable-next-line no-await-in-loop
       const res = await fetch(`api/${this.context}/${id}`);
       // eslint-disable-next-line no-await-in-loop
