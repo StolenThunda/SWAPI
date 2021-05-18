@@ -1,13 +1,4 @@
 <template>
-  <div class="text-center flex justify-center" @click="show = !show">
-    {{ detail.name }}
-    <q-avatar>
-      <q-img :src="'api/' + detail.image" contain>
-        <template v-slot:loading>
-          <q-spinner-gears color="white" />
-        </template>
-      </q-img>
-    </q-avatar>
     <q-dialog v-model="show">
     <q-card class="my-card">
       <q-img :src="'api/' + detail.image"/>
@@ -49,7 +40,6 @@
       </q-card-section>
     </q-card>
     </q-dialog>
-  </div>
 </template>
 
 <script>
