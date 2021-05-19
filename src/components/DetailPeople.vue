@@ -1,45 +1,57 @@
 <template>
-    <q-dialog v-model="show">
+  <q-dialog v-model="showDialog" style="width: 50vw">
     <q-card class="my-card">
-      <q-img :src="'api/' + detail.image"/>
+      <q-img :src="'api/' + detail.image">
+        <div class="absolute-top text-h2 text-center ellipsis">
+          {{ detail.name }}
+        </div>
+      </q-img>
 
       <q-card-section>
-        <!-- <q-btn
-          fab
-          color="primary"
-          icon="rocket"
-          class="absolute"
-          style="top: 0; right: 12px; transform: translateY(-50%);"
-        /> -->
-
         <div class="row no-wrap items-center">
-          <div class="col text-h6 ellipsis">
-            {{ detail.name }}
-          </div>
-          <div class="col-auto text-grey text-caption q-pt-md row no-wrap items-center">
-            <q-icon name="person" :title="detail.crew + ' crew members'" />
-            {{ detail.crew }}
+          <div
+            class="col-auto text-grey text-h6 text-capitalize q-pt-md column no-wrap "
+          >
+            <div>
+              Gender: <q-icon :name="`gender-${detail.gender}`" />{{ detail.gender }}
+            </div>
+            <div>Birth Year: {{ detail.birth_year }}
+              <span v-if="detail.birth_year.includes('BBY')">(Before Battle of Yavin)</span>
+              </div>
+            <div>Skin Color: {{ detail.skin_color }}
+            </div>
+            <div>Hair Color: {{ detail.hair_color }}
+            </div>
+            <div>Eye Color: {{ detail.eye_color }}
+            </div>
+            <div>Height: {{ detail.height }}
+            </div>
+            <div>Mass: {{ detail.mass }}
+            </div>
+            <div>Home World:
+              <data-detail category="planets" :arrayOfIDs="new Array(detail.homeworld)" />
+            </div>
           </div>
         </div>
-
-        <q-rating v-model="rating" :max="5" size="32px" title="Hyper Drive Rating" />
       </q-card-section>
 
       <q-card-section class="q-pt-none">
-        <div class="text-subtitle1">
-         Cost: {{ detail.cost_in_credits }}
+        <div v-for="field in relatedFields" :key="field[0]">
+          <data-detail
+            :category="field[0]"
+            :arrayOfIDs="field[1]"
+          />
         </div>
-        <data-detail :category="people" :items="detail.pilots" />
-              <q-separator />
+        <!-- <q-separator />
         <div class="text-caption text-grey">
           <details>
             <legend>Statistics</legend>
-          <pre>{{detail}}</pre>
+            <pre>{{ detail }}</pre>
           </details>
-        </div>
+        </div> -->
       </q-card-section>
     </q-card>
-    </q-dialog>
+  </q-dialog>
 </template>
 
 <script>
@@ -47,17 +59,38 @@ import DataDetail from './DataDetail.vue';
 
 export default {
   components: { DataDetail },
-  name: 'StarshipDetail',
+  name: 'PeopleDetail',
   props: ['detail'],
   data: () => ({
-    show: false,
+    showDialog: false,
   }),
+  watch: {
+    // eslint-disable-next-line func-names
+    'detail.show': function (val) {
+      this.showDialog = val;
+    },
+  },
   computed: {
     rating() {
       return Math.floor(this.detail.hyperdrive_rating);
     },
+    relatedFields() {
+      const fieldEntries = Object.entries(this.detail);
+      const relationalFields = fieldEntries.filter(
+        ([, v]) => Array.isArray(v) && v.length,
+      );
+      return relationalFields;
+    },
+  },
+  methods: {
+    arrayify(val) { return [val]; },
   },
 };
 </script>
 
-<style></style>
+<style>
+.my-card {
+  width: 700px;
+  max-width: 80vw;
+}
+</style>
