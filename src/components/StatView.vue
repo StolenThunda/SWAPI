@@ -1,18 +1,21 @@
 <template>
   <q-card class="my-card">
      <q-card-section>
-      <div class="row no-wrap items-center">
         <div
-          class="col-auto text-grey text-h6 text-capitalize q-pt-md column no-wrap "
+          class="text-grey text-h6 text-capitalize q-pt-md column text-center no-wrap "
          >
         <div
             v-for="(k, v) in renderAttrs"
             :key="k + v"
-            class="text-capitalize">
-          {{ v.replaceAll('_', ' ') }}: {{ k }}
+            class="text-capitalize row">
+            <div class="col-6">
+              {{ v.replaceAll('_', ' ') }}:
+            </div>
+            <div class="col-6">
+           {{ k }}
+            </div>
         </div>
         </div>
-      </div>
     </q-card-section>
   </q-card>
 </template>
@@ -20,10 +23,10 @@
 <script>
 
 export default {
-  name: 'PlanetView',
+  name: 'StatViewer',
   computed: {
     renderAttrs() {
-      const filterKeys = ['id', 'name', 'title', 'edited', 'created'];
+      const filterKeys = ['id', 'name', 'title', 'edited', 'created', 'image', 'show'];
       const arrayAttrs = Object.entries(this.$attrs);
       const arrayAsFilter = arrayAttrs.filter(
         ([key, value]) => !Array.isArray(value) && !filterKeys.includes(key),

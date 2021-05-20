@@ -1,13 +1,16 @@
 <template>
-<div>
-  <q-toolbar inset>
-  <q-breadcrumbs>
-      <q-breadcrumbs-el icon="home" to="/" />
-      <q-breadcrumbs-el :label="$route.path.replaceAll('/','')" class="text-capitalize"/>
-      <q-breadcrumbs-el icon="movie" :label="datumTitle" />
-    </q-breadcrumbs>
+  <div>
+    <q-toolbar inset>
+      <q-breadcrumbs>
+        <q-breadcrumbs-el icon="home" to="/" />
+        <q-breadcrumbs-el
+          :label="getCategory()"
+          :icon="getIcon()"
+          class="text-capitalize"
+        />
+      </q-breadcrumbs>
     </q-toolbar>
-     <q-carousel
+    <q-carousel
       v-model="slide"
       transition-prev="slide-right"
       transition-next="slide-left"
@@ -20,22 +23,33 @@
       arrows
       class="q-ma-none bg-grey-2 shadow-1 rounded-borders carousel"
     >
-     <q-carousel-slide
-        :name="'slide-' + item.id"
-        v-for="item in collection"
-        :key="item.id">
-        <data-view :category='category' :datum="item" />
+      <q-carousel-slide
+        v-for="(item, index) in collection"
+        :name="'slide-' + (index + 1)"
+        :key="item.id"
+      >
+        <slide-view :category="category" :datum="item">
+          <template #content>
+            <!-- <starship-detail v-if="category === 'starships'" v-bind="item" /> -->
+            <!-- <film-view v-if="category === 'films'" v-bind="item" /> -->
+          </template>
+        </slide-view>
       </q-carousel-slide>
-     </q-carousel>
-</div>
+    </q-carousel>
+  </div>
 </template>
 
 <script>
 import swapi from 'src/hooks/swapi.js';
-import DataView from 'src/components/DataView.vue';
+import SlideView from 'src/components/SlideView.vue';
 
 export default {
-  components: { DataView },
+  components: {
+    // eslint-disable-next-line vue/no-unused-components
+    // StarshipDetail: () => import('src/components/StarshipDetail.vue'),
+    // FilmView: () => import('src/components/FilmView.vue'),
+    SlideView,
+  },
   name: 'CategoryCarousel',
   data: () => ({
     collection: [],
@@ -46,29 +60,39 @@ export default {
   async created() {
     // eslint-disable-next-line no-console
     this.$root.$on('update-breadcrumb', this.updateCrumb);
-    // eslint-disable-next-line no-console
-    console.log(this.$route.path);
     this.category = this.$route.path.replaceAll('/', '');
     this.collection = await swapi.fetchDataCategory(this.category);
   },
   computed: {
-    getCategory() { return this.$route.path.replaceAll('/', ''); },
-    // getIcon() {
-    //   let icon = 'films'
-    //   switch (this.getCategory()) {
-    //     case 'films':
-    //       return 'movie_open';
-    //       break;
-    //     default:
-    //       break;
-    //   }
-    // }
+    categoryRoute() {
+      return this.$route.path.replaceAll('/', '');
+    },
   },
   methods: {
-    updateCrumb(e) {
+    updateCrumb(e) { this.datumTitle = e; },
+    getCategory() { return `${this.categoryRoute} - ${this.datumTitle}`; },
+    getIcon() {
+      let icon = '';
+      switch (this.categoryRoute) {
+        case 'starships':
+          icon = 'airplanemode_active';
+          break;
+        case 'vehicles':
+          icon = 'toys';
+          break;
+        case 'species':
+          icon = 'groups';
+          break;
+        case 'people':
+          icon = 'person';
+          break;
+        default:
+          icon = 'theaters';
+          break;
+      }
       // eslint-disable-next-line no-console
-      console.log('new title', e);
-      this.datumTitle = e;
+      console.log('icon', icon);
+      return icon;
     },
   },
 };

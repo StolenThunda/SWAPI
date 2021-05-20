@@ -1,8 +1,3 @@
-/* eslint-disable no-console */
-/* eslint-disable no-console */
-/* eslint-disable no-console */
-/* eslint-disable no-console */
-/* eslint-disable no-await-in-loop */ /* eslint-disable no-plusplus */
 <template>
 <div>
     <p q-if="!nested" class="text-h6 text-capitalize">{{ context }}</p>
@@ -23,21 +18,33 @@
         <q-avatar
             class="text-center shadow-2 flex"
             size="5rem">
-            <q-img :src="imgSrc(detail)" contain>
+            <q-img
+              :placeholder-src="placeholder"
+              :src="imgSrc(detail)"
+              contain>
             <template v-slot:loading>
               <q-spinner-gears color="primary" />
             </template>
           </q-img>
         </q-avatar>
-        <starship-detail
-          v-if="['starships', 'vehicles'].includes(context)"
+        <!-- <stat-view v-bind="detail" /> -->
+        <data-dialog
           :detail="detail"
           v-model="detail.show"
-        />
-        <people-detail
+        >
+        <starship-detail
+            v-if="category === 'starships'"
+            v-bind="detail"
+            v-model="detail.show" />
+            <film-view
+              v-if="category === 'films'"
+              v-bind="detail"
+              v-model="detail.show" />
+        </data-dialog>
+        <!-- <character-view
         v-model="detail.show"
         v-if="['people'].includes(context)"
-        :detail="detail" />
+        v-bind="detail" /> -->
         </div>
     </div>
   </div>
@@ -46,12 +53,15 @@
 </template>
 
 <script>
-import StarshipDetail from './StarshipDetail.vue';
-import PeopleDetail from './DataDialog.vue';
+import DataDialog from './DataDialog.vue';
+import utility from '../hooks/utility.js';
 
 export default {
-  components: { StarshipDetail, PeopleDetail },
-  name: 'DataDetail',
+  components: {
+    // CharacterView: () =>import('./CharacterView.vue'),
+    DataDialog,
+  },
+  name: 'RelatedData',
   props: {
     category: {
       type: String,
@@ -71,9 +81,10 @@ export default {
     context: null,
     details: [],
     slide: null,
+    placeholder: utility.NoImageBase64URL,
   }),
   async created() {
-    this.context = this.category === 'characters' ? 'people' : this.category;
+    this.context = ['characters', 'residents'].includes(this.category) ? 'people' : this.category;
     let i = 0;
     // const fetches = [];
     // eslint-disable-next-line no-plusplus
@@ -88,7 +99,8 @@ export default {
     }
     this.slide = this.details[0].name;
   },
-  computed: {},
+  computed: {
+  },
   methods: {
     showDetail(dtl) {
       // eslint-disable-next-line no-console

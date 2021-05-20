@@ -35,20 +35,31 @@
               {{ field[0] }}
               </div>
             </template>
-            <data-detail
-              :nested="true"
-            :category="field[0]" :arrayOfIDs="field[1]">
-            </data-detail>
+            <related-data-view
+               :category="field[0]"
+              :arrayOfIDs="field[1]"
+              v-for="(field, index) in relatedFields"
+              :key="field[0] + index">
+            </related-data-view>
           </q-expansion-item>
         </q-list>
       </q-card-section>
     </q-card>
 </template>
 <script>
-import DataDetail from './DataDetail.vue';
+import RelatedDataView from './RelatedDataView.vue';
 
 export default {
-  components: { DataDetail },
+  components: { RelatedDataView },
   props: ['title', 'director', 'producer', 'opening_crawl'],
+  computed: {
+    relatedFields() {
+      const fieldEntries = Object.entries(this.datum);
+      const relationalFields = fieldEntries.filter(
+        ([, v]) => Array.isArray(v) && v.length,
+      );
+      return relationalFields;
+    },
+  },
 };
 </script>
