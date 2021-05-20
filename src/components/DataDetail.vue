@@ -29,7 +29,6 @@
             </template>
           </q-img>
         </q-avatar>
-        <!-- <starship-detail :detail="detail" /> -->
         <starship-detail
           v-if="['starships', 'vehicles'].includes(context)"
           :detail="detail"
@@ -48,7 +47,7 @@
 
 <script>
 import StarshipDetail from './StarshipDetail.vue';
-import PeopleDetail from './DetailPeople.vue';
+import PeopleDetail from './DataDialog.vue';
 
 export default {
   components: { StarshipDetail, PeopleDetail },
