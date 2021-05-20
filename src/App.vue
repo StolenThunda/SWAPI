@@ -1,6 +1,6 @@
 <template>
   <div id="q-app">
-    <div class="stars"></div>
+    <!-- <div class="stars"></div> -->
     <!-- <div class="twinkling"></div> -->
     <!-- <div class="clouds"></div> -->
 
@@ -8,30 +8,29 @@
   </div>
 </template>
 <script>
+import swapi from 'src/hooks/swapi.js';
+
 export default {
   name: 'App',
+  mixins: [swapi],
   data: () => ({
     results: null,
   }),
   async created() {
     this.results = await this.fetchDataCategory('films');
   },
-  methods: {
-    async fetchDataCategory(category) {
-      const res = await fetch(`api/${category}`);
-      const data = await res.json();
-      return data;
-    },
-    async fetchOne(category, id) {
-      const res = await fetch(`api/${category}${id ? `/${id}` : ''}`);
-      const data = await res.json();
-      return data;
-    },
-  },
 };
 </script>
 
 <style scoped>
+@font-face {
+  font-family: StarJedi;
+  src: url(./css/fonts/Starjhol.ttf);
+}
+
+div {
+  font-family: 'StarJedi';
+}
 @keyframes move-twink-back {
     from {background-position:0 0;}
     to {background-position:-10000px 5000px;}

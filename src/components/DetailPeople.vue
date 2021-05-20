@@ -1,5 +1,5 @@
 <template>
-  <q-dialog v-model="showDialog" style="width: 50vw">
+  <q-dialog v-model="showDialog">
     <q-card class="my-card">
       <q-img :src="'api/' + detail.image">
         <div class="absolute-top text-h2 text-center ellipsis">
@@ -29,7 +29,6 @@
             <div>Mass: {{ detail.mass }}
             </div>
             <div>Home World:
-              <data-detail category="planets" :arrayOfIDs="new Array(detail.homeworld)" />
             </div>
           </div>
         </div>
@@ -90,7 +89,7 @@ export default {
 
 <style>
 .my-card {
-  width: 700px;
-  max-width: 80vw;
+  width: 30vw;
+  max-width: 60vw;
 }
 </style>

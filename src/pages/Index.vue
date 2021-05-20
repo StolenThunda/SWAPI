@@ -1,37 +1,55 @@
 <template>
   <q-page>
-     <q-carousel
-      v-model="slide"
-      transition-prev="slide-right"
-      transition-next="slide-left"
-      infinite
-      animated
-      navigation
-      padding
-      control-type="regular"
-      control-color="primary"
-      arrows
-      class="full-height bg-grey-2 shadow-1 rounded-borders absolute-full"
-    >
-     <q-carousel-slide
-        :name="'slide-' + film.id"
-        v-for="film in films"
-        :key="film.id">
-        <film-blurb :film="film" />
-      </q-carousel-slide>
-     </q-carousel>
+    <ul>
+      <li class="navImage">
+        <q-img :src="api/a_new_hope.jpg">
+        <div class="absolute-top text-h2 text-center ellipsis">
+          Films
+        </div>
+      </q-img>
+      </li>
+      <li class="navImage">
+        <q-img :src="api/ackbar.jpg">
+        <div class="absolute-top text-h2 text-center ellipsis">
+          Characters
+        </div>
+      </q-img>
+      </li>
+      <li class="navImage">
+        <q-img :src="api/greedo.jpg">
+        <div class="absolute-top text-h2 text-center ellipsis">
+          Species
+        </div>
+      </q-img>
+      </li>
+      <li class="navImage">
+        <q-img :src="'api/' + detail.image">
+        <div class="absolute-top text-h2 text-center ellipsis">
+          Starships
+        </div>
+      </q-img>
+      </li>
+      <li class="navImage">
+        <q-img :src="'api/' + detail.image">
+        <div class="absolute-top text-h2 text-center ellipsis">
+          Planets
+        </div>
+      </q-img>
+      </li>
+    </ul>
   </q-page>
 </template>
 
 <script>
-import FilmBlurb from 'src/components/FilmBlurb.vue';
-
 export default {
-  components: { FilmBlurb },
   name: 'PageIndex',
-  props: ['films'],
-  data: () => ({
-    slide: 'slide-4',
-  }),
 };
 </script>
+
+<style scoped>
+.navImage {
+  height: 150px;
+  width: 200px;
+  border: 1px solid;
+}
+</style>
