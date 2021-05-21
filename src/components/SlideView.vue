@@ -67,7 +67,7 @@ export default {
   name: 'SlideView',
   props: ['category', 'datum'],
   data: () => ({
-    tab: 'main',
+    tab: 'related',
   }),
   mounted() {
     const title = this.datum.name ? this.datum.name : this.datum.title;

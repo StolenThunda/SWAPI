@@ -1,55 +1,48 @@
 <template>
-<div>
+  <div>
     <p q-if="!nested" class="text-h6 text-capitalize">{{ context }}</p>
-  <q-scroll-area
-    horizontal
-    v-if="details.length"
-    class="bg-grey-1"
-    style="height: 125px;"
-  >
-  <div class="row text-white bg-primary no-wrap">
-    <div
-      v-for="detail in details"
-      :key="detail.id"
-      class="q-px-xs text-center q-ma-xs bg-accent column flex items-center"
-    >
-      <div class="col" @click="showDetail(detail)">
-        {{ detail.name }}
-        <q-avatar
-            class="text-center shadow-2 flex"
-            size="5rem">
-            <q-img
-              :placeholder-src="placeholder"
-              :src="imgSrc(detail)"
-              contain>
-            <template v-slot:loading>
-              <q-spinner-gears color="primary" />
-            </template>
-          </q-img>
-        </q-avatar>
-        <!-- <stat-view v-bind="detail" /> -->
-        <data-dialog
-          :detail="detail"
-          v-model="detail.show"
+    <q-scroll-area horizontal v-if="details.length" style="height: 125px;">
+      <div class="row text-white bg-primary no-wrap">
+        <div
+          v-for="detail in details"
+          :key="detail.id"
+          class="q-px-xs text-center q-ma-xs bg-accent column flex items-center"
         >
-        <starship-detail
-            v-if="category === 'starships'"
-            v-bind="detail"
-            v-model="detail.show" />
-            <film-view
-              v-if="category === 'films'"
-              v-bind="detail"
-              v-model="detail.show" />
-        </data-dialog>
-        <!-- <character-view
+          <div class="col" @click="showDetail(detail)">
+            {{ detail.name ? detail.name : detail.title }}
+            <q-avatar class="text-center shadow-2 flex" size="5rem">
+              <q-img
+                :placeholder-src="placeholder"
+                :src="imgSrc(detail)"
+                contain
+              >
+                <template v-slot:loading>
+                  <q-spinner-gears color="primary" />
+                </template>
+              </q-img>
+            </q-avatar>
+            <!-- <stat-view v-bind="detail" /> -->
+            <data-dialog :detail="detail" v-model="detail.show">
+              <starship-detail
+                v-if="category === 'starships'"
+                v-bind="detail"
+                v-model="detail.show"
+              />
+              <film-view
+                v-if="category === 'films'"
+                v-bind="detail"
+                v-model="detail.show"
+              />
+            </data-dialog>
+            <!-- <character-view
         v-model="detail.show"
         v-if="['people'].includes(context)"
         v-bind="detail" /> -->
+          </div>
         </div>
-    </div>
+      </div>
+    </q-scroll-area>
   </div>
-  </q-scroll-area>
-</div>
 </template>
 
 <script>
@@ -69,7 +62,7 @@ export default {
     },
     arrayOfIDs: {
       type: Array,
-      default: () => ([]),
+      default: () => [],
     },
     nested: {
       type: Boolean,
@@ -84,9 +77,10 @@ export default {
     placeholder: utility.NoImageBase64URL,
   }),
   async created() {
-    this.context = ['characters', 'residents'].includes(this.category) ? 'people' : this.category;
+    this.context = ['characters', 'residents'].includes(this.category)
+      ? 'people'
+      : this.category;
     let i = 0;
-    // const fetches = [];
     // eslint-disable-next-line no-plusplus
     for (i = 0; i < this.arrayOfIDs.length; i++) {
       const id = this.arrayOfIDs[i];
@@ -99,23 +93,18 @@ export default {
     }
     this.slide = this.details[0].name;
   },
-  computed: {
-  },
+  computed: {},
   methods: {
     showDetail(dtl) {
-      // eslint-disable-next-line no-console
-      console.log(`Before: ${dtl.name}`, dtl.show);
-      // this.show[dtl.name] = !this.show[dtl.name];
       dtl.show = !dtl.show;
-      // eslint-disable-next-line no-console
-      console.log(`After: ${dtl.name}`, dtl.show);
       return dtl.show;
     },
     imgSrc(dtl) {
-      const imgURL = dtl.image ? dtl.image : `${dtl.name}.jpg`;
+      const ident = dtl.name ? dtl.name : dtl.title;
+      const imgURL = dtl.image ? dtl.image : `${ident.replaceAll(' ', '_').toLowerCase()}.jpg`;
       const retURL = `api/${imgURL}`;
       // eslint-disable-next-line no-console
-      // console.log(retURL);
+      console.log(retURL);
       return retURL;
     },
   },

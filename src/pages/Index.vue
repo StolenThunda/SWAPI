@@ -1,13 +1,14 @@
+/* eslint-disable max-len */
 <template>
   <div class="stars ">
-    <div class='' >
-    <h3 class="text-center text-primary font-jedi ">Choose a Category</h3>
-    </div>
-    <!-- <div class="twinkling"></div> -->
-    <!-- <div class="clouds"></div> -->
-    <div class="nav flex flex-center justify-center wrap">
+    <div class="twinkling"></div>
+    <div class="clouds"></div>
+    <div class="row flex flex-center justify-center q-gutter-md">
+      <h4 class="col-12 text-center text-primary font-jedi q-pt-lg q-pt-xl">
+        Choose a Category
+      </h4>
       <div
-        class="navImage"
+        class="navImage q-ma-lg col-2"
         v-for="category in categories"
         :key="category.title"
       >
@@ -15,13 +16,19 @@
           class="q-px-lg"
           :src="'api/' + category.image"
           spinner-color="white"
-          style="height: 30vh; max-width: 10vw"
+          contain
+          ratio="1"
+          style="height: 30vh; max-width: 20vw"
         >
-          <div
-            class="absolute-bottom text-body1 text-uppercase /
-            text-center text-weight-bolder ellipsis">
-            <router-link :to="`/${category.title === 'characters' ? 'people' : category.title}`">
-            {{ category.title}}
+          <div :class="linkClasses">
+            <router-link
+              :to="
+                `/${
+                  category.title === 'characters' ? 'people' : category.title
+                }`
+              "
+            >
+              {{ category.title }}
             </router-link>
           </div>
         </q-img>
@@ -34,6 +41,15 @@
 export default {
   name: 'PageIndex',
   data: () => ({
+    linkClasses: [
+      'absolute-bottom',
+      'text-h4',
+      'text-lowercase',
+      'font-jedi',
+      'text-center',
+      'bg-primary',
+      'text-white',
+    ].join(' '),
     categories: [
       {
         title: 'films',
@@ -65,10 +81,14 @@ export default {
 </script>
 
 <style scoped>
+h4 {
+  z-index: 1000;
+}
 .navImage {
-  max-height: 20vh;
-  max-width: 50vw;
-  width: 15vw;
+  z-index: 100;
+  height: 33vh;
+  max-width: 25vw;
+  width: 33vw;
 }
 @keyframes move-twink-back {
   from {
@@ -145,6 +165,7 @@ export default {
   width: 100%;
   height: 100%;
   display: block;
+  z-index: -100;
 }
 .stars {
   background: #000

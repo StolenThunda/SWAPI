@@ -21,7 +21,7 @@
       control-type="regular"
       control-color="primary"
       arrows
-      class="q-ma-none bg-grey-2 shadow-1 rounded-borders carousel"
+      class="q-ma-none shadow-1 rounded-borders carousel"
     >
       <q-carousel-slide
         v-for="(item, index) in collection"

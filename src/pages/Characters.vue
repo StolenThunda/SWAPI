@@ -18,7 +18,7 @@
       control-type="regular"
       control-color="primary"
       arrows
-      class="bg-grey-2 shadow-1 rounded-borders"
+      class=" shadow-1 rounded-borders"
     >
      <q-carousel-slide
         :name="'slide-' + person.id"

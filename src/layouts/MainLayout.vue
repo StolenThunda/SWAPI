@@ -1,11 +1,12 @@
 <template>
   <!-- <q-layout view="lHh Lpr lFf"> -->
   <q-layout view="hhh Lpr fFf">
-    <q-header elevated>
-      <q-toolbar>
-        <q-toolbar-title class="text-center font-jedi-outline">
+    <q-header>
+      <q-toolbar class="q-px-xl">
+        <h4 class="text-center font-jedi">
          <span>star wars visual guide <sup>2</sup></span>
-        </q-toolbar-title>
+        </h4>
+        <q-space />
         <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
