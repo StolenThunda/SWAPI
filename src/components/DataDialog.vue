@@ -1,34 +1,26 @@
 /* eslint-disable max-len */
 <template>
-  <q-dialog v-model="showDialog">
+  <q-dialog v-model="showDialog" class="shadow-12 rounded-borders">
     <div class="row flex justify-around items-start">
       <slot name="head">
-       <q-img
-       v-if="detail.image"
-      :placeholder-src="placeholder"
-      :src="'api/' + detail.image">
+        <div class="full-width text-h4 text-center bg-primary text-white q-pa-md">
+          {{ detail.name ? detail.name : detail.title }}
+        </div>
+        <q-img
+          style="width: 25vw;"
+          class='fit'
+          v-if="detail.image"
+          :placeholder-src="placeholder"
+          :src="'api/' + detail.image"
+          @error="imgError"
+        >
           <template v-slot:loading>
             <q-spinner-gears color="primary" />
           </template>
-          <!-- style="width: 25vw;" -->
-          <div class="fixed-top text-h4 text-center bg-primary text-white">
-            {{ detail.name ? detail.name : detail.title }}
-            <details class="bg-primary full-width text-body1">
-              <pre>{{ detail }}</pre>
-            </details>
-          </div>
         </q-img>
       </slot>
       <slot>
-        <div
-          v-if="!detail.image"
-          class="full-width text-h4 text-center bg-primary text-white">
-            {{ detail.name ? detail.name : detail.title }}
-            <details class="bg-primary full-width text-body1">
-              <pre>{{ detail }}</pre>
-            </details>
-          </div>
-        <stat-view v-bind="detail" />
+        <stat-view v-bind="detail" class="fit" />
       </slot>
     </div>
   </q-dialog>
@@ -36,7 +28,7 @@
 
 <script>
 import StatView from './StatView.vue';
-import utility from '../hooks/utility.js';
+import utility from '../hooks/imageUtilities.js';
 
 export default {
   name: 'DataDialog',
@@ -60,6 +52,9 @@ export default {
       );
       return relationalFields;
     },
+  },
+  methods: {
+    imgError: (e) => utility.loadError(e),
   },
 };
 </script>
