@@ -47,7 +47,7 @@
 
 <script>
 import DataDialog from './DataDialog.vue';
-import utility from '../hooks/utility.js';
+import utility from '../hooks/imageUtilities.js';
 
 export default {
   components: {

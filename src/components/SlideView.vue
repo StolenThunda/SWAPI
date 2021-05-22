@@ -16,6 +16,7 @@
         spinner-color="primary"
         class="my-img col flex-center offset-2"
         @error="imageLoadError"
+        :placeholder-src="placeholder"
         contain
       >
         <template v-slot:loading>
@@ -58,6 +59,7 @@
 <script>
 import RelatedDataView from './RelatedDataView.vue';
 import StatView from './StatView.vue';
+import utility from '../hooks/imageUtilities.js';
 
 export default {
   components: {
@@ -68,6 +70,7 @@ export default {
   props: ['category', 'datum'],
   data: () => ({
     tab: 'related',
+    placeholder: utility.NoImageBase64URL,
   }),
   mounted() {
     const title = this.datum.name ? this.datum.name : this.datum.title;
