@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <q-page>
     <q-toolbar inset>
       <q-breadcrumbs>
         <q-breadcrumbs-el icon="home" to="/" />
@@ -16,7 +16,6 @@
       transition-next="slide-left"
       infinite
       animated
-      navigation
       padding
       control-type="regular"
       control-color="primary"
@@ -30,13 +29,13 @@
       >
         <slide-view :category="category" :datum="item">
           <template #content>
-            <!-- <starship-detail v-if="category === 'starships'" v-bind="item" /> -->
-            <!-- <film-view v-if="category === 'films'" v-bind="item" /> -->
+            <starship-detail v-if="category === 'starships'" v-bind="item" />
+            <film-view v-if="category === 'films'" v-bind="item" />
           </template>
         </slide-view>
       </q-carousel-slide>
     </q-carousel>
-  </div>
+  </q-page>
 </template>
 
 <script>

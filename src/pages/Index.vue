@@ -8,9 +8,10 @@
         Choose a Category
       </h4>
       <div
-        class="navImage q-ma-lg col-2"
+        class="navImage q-ma-lg col-2 col-lg-3 justify-evenly"
         v-for="category in categories"
         :key="category.title"
+        @click="$router.push('/' + category.title === 'characters' ? 'people' : category.title)"
       >
           <q-skeleton v-if="!categories" type="QAvatar" />
         <q-img
@@ -22,15 +23,7 @@
           style="height: 30vh; max-width: 20vw"
         >
           <div :class="linkClasses">
-            <router-link
-              :to="
-                `/${
-                  category.title === 'characters' ? 'people' : category.title
-                }`
-              "
-            >
               {{ category.title }}
-            </router-link>
           </div>
         </q-img>
       </div>

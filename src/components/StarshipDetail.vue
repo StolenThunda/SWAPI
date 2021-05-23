@@ -1,9 +1,6 @@
 /* eslint-disable vue/no-mutating-props */
 <template>
-  <!-- <q-dialog v-model="showDialog"> -->
     <q-card class="my-card">
-      <!-- <q-img :src="'api/' + detail.image" /> -->
-
       <q-card-section>
         <div class="row no-wrap items-center">
           <div class="col text-h6 ellipsis">
@@ -16,8 +13,8 @@
             {{ crew }}
           </div>
         </div>
-
       </q-card-section>
+
       <q-card-section class="q-pt-none">
          <div
             class="col-auto text-grey text-h6 text-capitalize q-pt-md column no-wrap "
@@ -34,7 +31,7 @@
         Known Pilots: {{ pilots.length || 0 }}
         <related-data-view
           v-if="pilots.length"
-          v-bind="pilots" /> <q-separator />
+          v-bind="retrievePilotInfo" /> <q-separator />
          </div>
         <div class="text-caption text-grey">
           <details>
@@ -61,6 +58,12 @@ export default {
       this.showDialog = val;
     },
   },
+  created() {
+    // convert $attrs to data
+    Object.entries(this.$attrs).forEach(([k, v]) => {
+      this[k] = v;
+    });
+  },
   mounted() {
     this.showDialog = this.show;
   },
@@ -68,7 +71,7 @@ export default {
     rating() {
       return Math.ceil(this.hyperdrive_rating);
     },
-    pilots() {
+    retrievePilotInfo() {
       return { category: 'people', arrayOfIDs: this.pilots };
     },
   },

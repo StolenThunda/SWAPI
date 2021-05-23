@@ -1,20 +1,18 @@
 /* eslint-disable no-console */
 <template>
-  <q-page>
+  <div class="row items-start justify-around">
     <div
-      class="q-py-lg font-jedi-outline text-h2 text-center ellipsis text-lowercase"
+      class="q-py-lg font-jedi-outline text-h2 col-12 text-center ellipsis text-lowercase"
     >
-      {{ datum.name }}
+      {{ datum.name ? datum.name : datum.title }}
     </div>
-    <div
-      class="row full-height flex justify-center items-stretch content-around"
-    >
+    <div class="q-pa-lg col-12 col-md-5 full-height">
       <q-img
         :src="imageSrc"
         :alt="datum.name"
         :title="datum.name"
         spinner-color="primary"
-        class="my-img offset-2 col flex-center"
+        class=""
         @error="imageLoadError"
         :placeholder-src="placeholder"
         contain
@@ -23,38 +21,37 @@
           <q-spinner-gears color="primary" />
         </template>
       </q-img>
-      <q-skeleton v-if="!datum" type="QAvatar" />
-      <div class="offset-2 col-">
-        <q-tabs
-          v-model="tab"
-          dense
-          class="text-grey"
-          active-color="primary"
-          indicator-color="primary"
-        >
-          <!-- align="justify" -->
-          <q-tab name="main" label="Data" />
-          <q-tab name="related" label="Related" />
-        </q-tabs>
-        <q-tab-panels v-model="tab" animated class="rounded-borders">
-          <q-tab-panel name="main">
-            <slot name="content">
-            <stat-view v-bind="datum" />
-            </slot>
-          </q-tab-panel>
-          <q-tab-panel name="related" class="row flat wrap ">
-            <related-data-view
-              class="q-ma-md q-px-md"
-              :category="field[0]"
-              :arrayOfIDs="field[1]"
-              v-for="(field, index) in relatedFields"
-              :key="field[0] + index"
-            />
-          </q-tab-panel>
-        </q-tab-panels>
-      </div>
+      <!-- <q-skeleton v-if="!datum" type="QAvatar" /> -->
     </div>
-  </q-page>
+    <div class="offset-1 col-12 col-md-6">
+      <q-tabs
+        v-model="tab"
+        dense
+        class="text-grey"
+        active-color="primary"
+        indicator-color="primary"
+      >
+        <!-- align="justify" -->
+        <q-tab name="main" label="Data" />
+        <q-tab name="related" label="Related" />
+      </q-tabs>
+      <q-tab-panels v-model="tab" animated class="rounded-borders">
+        <q-tab-panel name="main">
+          <slot name="content">
+            <stat-view v-bind="datum" />
+          </slot>
+        </q-tab-panel>
+        <q-tab-panel name="related" class="row flat wrap ">
+          <related-data-view
+            :category="field[0]"
+            :arrayOfIDs="field[1]"
+            v-for="(field, index) in relatedFields"
+            :key="field[0] + index"
+          />
+        </q-tab-panel>
+      </q-tab-panels>
+    </div>
+  </div>
 </template>
 
 <script>

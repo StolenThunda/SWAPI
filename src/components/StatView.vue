@@ -1,5 +1,5 @@
 <template>
-  <q-card class="my-card">
+  <q-card>
      <q-card-section>
         <div
           class="text-grey text-h6 text-capitalize q-pt-md column text-center no-wrap "

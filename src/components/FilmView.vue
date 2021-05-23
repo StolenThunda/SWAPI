@@ -52,6 +52,12 @@ import RelatedDataView from './RelatedDataView.vue';
 export default {
   components: { RelatedDataView },
   props: ['title', 'director', 'producer', 'opening_crawl'],
+  created() {
+    // convert $attrs to data
+    Object.entries(this.$attrs).forEach(([k, v]) => {
+      this[k] = v;
+    });
+  },
   computed: {
     relatedFields() {
       const fieldEntries = Object.entries(this.datum);
