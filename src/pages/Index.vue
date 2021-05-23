@@ -12,8 +12,9 @@
         v-for="category in categories"
         :key="category.title"
       >
+          <q-skeleton v-if="!categories" type="QAvatar" />
         <q-img
-          class="q-px-lg"
+          class="q-px-md fit"
           :src="'api/' + category.image"
           spinner-color="white"
           contain
@@ -42,12 +43,14 @@ export default {
   name: 'PageIndex',
   data: () => ({
     linkClasses: [
-      'absolute-bottom',
-      'text-h4',
+      'transperent',
+      'ellipsis-2-lines',
+      'fixed-top',
+      'text-h5',
       'text-lowercase',
       'font-jedi',
       'text-center',
-      'bg-primary',
+      // 'bg-primary',
       'text-white',
     ].join(' '),
     categories: [

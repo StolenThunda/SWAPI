@@ -14,7 +14,7 @@
         :alt="datum.name"
         :title="datum.name"
         spinner-color="primary"
-        class="my-img col flex-center offset-2"
+        class="my-img offset-2 col flex-center"
         @error="imageLoadError"
         :placeholder-src="placeholder"
         contain
@@ -23,27 +23,28 @@
           <q-spinner-gears color="primary" />
         </template>
       </q-img>
-      <div class="offset-2 col">
+      <q-skeleton v-if="!datum" type="QAvatar" />
+      <div class="offset-2 col-">
         <q-tabs
           v-model="tab"
           dense
           class="text-grey"
           active-color="primary"
           indicator-color="primary"
-          align="justify"
-          narrow-indicator
         >
+          <!-- align="justify" -->
           <q-tab name="main" label="Data" />
           <q-tab name="related" label="Related" />
         </q-tabs>
-        <q-tab-panels v-model="tab" animated class="shadow-2 rounded-borders">
+        <q-tab-panels v-model="tab" animated class="rounded-borders">
           <q-tab-panel name="main">
             <slot name="content">
             <stat-view v-bind="datum" />
             </slot>
           </q-tab-panel>
-          <q-tab-panel name="related">
+          <q-tab-panel name="related" class="row flat wrap ">
             <related-data-view
+              class="q-ma-md q-px-md"
               :category="field[0]"
               :arrayOfIDs="field[1]"
               v-for="(field, index) in relatedFields"

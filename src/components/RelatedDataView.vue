@@ -1,14 +1,18 @@
 <template>
-  <div>
+  <div class="col-5 shadow-6 bg-accent">
     <p q-if="!nested" class="text-h6 text-capitalize">{{ context }}</p>
-    <q-scroll-area horizontal v-if="details.length" style="height: 125px;">
-      <div class="row text-white bg-primary no-wrap">
+ <q-scroll-area
+      horizontal
+      v-if="details.length"
+      style="height: 125px;"
+      >
+      <div class="row text-white no-wrap fit">
         <div
           v-for="detail in details"
           :key="detail.id"
-          class="q-px-xs text-center q-ma-xs bg-accent column flex items-center"
+          class="q-px-xs text-center q-ma-xs column flex items-center"
         >
-          <div class="col" @click="showDetail(detail)">
+          <div class="col " @click="showDetail(detail)">
             {{ detail.name ? detail.name : detail.title }}
             <q-avatar class="text-center shadow-2 flex" size="5rem">
               <q-img
