@@ -58,6 +58,7 @@
 import RelatedDataView from './RelatedDataView.vue';
 import StatView from './StatView.vue';
 import utility from '../hooks/imageUtilities.js';
+import SWAPI from '../hooks/swapi.js';
 
 export default {
   components: {
@@ -67,11 +68,15 @@ export default {
   name: 'SlideView',
   props: ['category', 'datum'],
   data: () => ({
+    relatedFields: null,
     tab: 'related',
     placeholder: utility.NoImageBase64URL,
   }),
   mounted() {
     const title = this.datum.name ? this.datum.name : this.datum.title;
+    // eslint-disable-next-line no-console
+    console.log(SWAPI);
+    this.relatedFields = SWAPI.relatedFields(this.datum);
     this.$root.$emit('update-breadcrumb', title);
   },
   computed: {
@@ -82,13 +87,6 @@ export default {
         this.datum.image ? this.datum.image : `${defaultImageName}.jpg`
       }`;
       return imgSrc;
-    },
-    relatedFields() {
-      const fieldEntries = Object.entries(this.datum);
-      const relationalFields = fieldEntries.filter(
-        ([, v]) => Array.isArray(v) && v.length,
-      );
-      return relationalFields;
     },
   },
   methods: {

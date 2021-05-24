@@ -44,15 +44,6 @@ export default {
       this.showDialog = val;
     },
   },
-  computed: {
-    relatedFields() {
-      const fieldEntries = Object.entries(this.detail);
-      const relationalFields = fieldEntries.filter(
-        ([, v]) => Array.isArray(v) && v.length,
-      );
-      return relationalFields;
-    },
-  },
   methods: {
     imgError: (e) => utility.loadError(e),
   },

@@ -31,6 +31,7 @@
           <template #content>
             <starship-detail v-if="category === 'starships'" v-bind="item" />
             <film-view v-if="category === 'films'" v-bind="item" />
+            <character-view v-if="['people'].includes(category)" v-bind="item" />
           </template>
         </slide-view>
       </q-carousel-slide>
@@ -45,8 +46,8 @@ import SlideView from 'src/components/SlideView.vue';
 export default {
   components: {
     // eslint-disable-next-line vue/no-unused-components
-    // StarshipDetail: () => import('src/components/StarshipDetail.vue'),
-    // FilmView: () => import('src/components/FilmView.vue'),
+    StarshipDetail: () => import('src/components/StarshipDetail.vue'),
+    FilmView: () => import('src/components/FilmView.vue'),
     SlideView,
   },
   name: 'CategoryCarousel',
@@ -60,6 +61,7 @@ export default {
     // eslint-disable-next-line no-console
     this.$root.$on('update-breadcrumb', this.updateCrumb);
     this.category = this.$route.path.replaceAll('/', '');
+    this.category = ['characters', 'residents'].includes(this.category) ? 'people' : this.category;
     this.collection = await swapi.fetchDataCategory(this.category);
   },
   computed: {

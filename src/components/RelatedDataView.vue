@@ -25,17 +25,17 @@
           :key="detail.id"
           :img-src="'api/' + detail.image" @click="showDetail(detail)"
         >
-          <div>
+          <div class="bg-grey-6">
             <span
                 class='text-h6
+                text-primary
                 absolute-bottom
-                bg-secondary
                 text-center
                 text-lowercase
                 font-jedi'>  {{ detail.title }}
             </span>
             <data-dialog :detail="detail" v-model="detail.show">
-              <starship-detail
+              <!-- <starship-detail
                 v-if="category === 'starships'"
                 v-bind="detail"
                 v-model="detail.show"
@@ -49,7 +49,7 @@
                 v-model="detail.show"
                 v-if="['people'].includes(context)"
                 v-bind="detail"
-              />
+              /> -->
             </data-dialog>
           </div>
         </q-carousel-slide>
@@ -135,8 +135,8 @@ export default {
   components: {
     // CharacterView: () =>import('./CharacterView.vue'),
     DataDialog,
-    StarshipDetail: () => import('./StarshipDetail.vue'),
-    FilmView: () => import('./FilmView.vue'),
+    // StarshipDetail: () => import('./StarshipDetail.vue'),
+    // FilmView: () => import('./FilmView.vue'),
   },
   name: 'RelatedData',
   props: {

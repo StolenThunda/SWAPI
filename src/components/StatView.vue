@@ -1,5 +1,13 @@
 <template>
   <q-card>
+    <q-card-section>
+      <details>
+        <legend>Debug Details</legend>
+        <pre>
+        {{ JSON.stringify(renderAttrs, null, 2)}}
+        </pre>
+      </details>
+    </q-card-section>
      <q-card-section>
         <div
           class="text-grey text-h6 text-capitalize q-pt-md column text-center no-wrap "
@@ -12,7 +20,7 @@
               {{ v.replaceAll('_', ' ') }}:
             </div>
             <div class="col-6">
-           {{ k }}
+           {{ v === 'homeworld' ? getHomeWorld(k) : k }}
             </div>
         </div>
         </div>
@@ -21,9 +29,13 @@
 </template>
 
 <script>
+import SWAPI from '../hooks/swapi.js';
 
 export default {
   name: 'StatViewer',
+  data: () => ({
+    homeworld: '',
+  }),
   computed: {
     renderAttrs() {
       const filterKeys = ['id', 'name', 'title', 'edited', 'created', 'image', 'show'];
@@ -32,7 +44,20 @@ export default {
         ([key, value]) => !Array.isArray(value) && !filterKeys.includes(key),
       );
       const filterObject = Object.fromEntries(arrayAsFilter);
+      if (filterObject.homeworld) filterObject.homeplanet = this.getHomeWorld();
       return filterObject;
+    },
+  },
+  methods: {
+    async getHomeWorld(id = this.$attrs.homeworld) {
+      // eslint-disable-next-line no-return-await
+      return await SWAPI.fetchOne('planets', id, 'name')
+        .then((planet) => {
+          // eslint-disable-next-line no-console
+          console.log('planet', planet);
+          return planet;
+        });
+      // eslint-disable-next-line no-console
     },
   },
 };
