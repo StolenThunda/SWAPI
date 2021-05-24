@@ -5,7 +5,7 @@ const routes = [
     children: [
       { path: '', component: () => import('pages/Index.vue') },
       { path: '/films', component: () => import('src/pages/CategoryCarousel.vue') },
-      { path: '/people', component: () => import('pages/CategoryCarousel.vue') },
+      { path: '/characters', component: () => import('pages/CategoryCarousel.vue') },
       { path: '/starships', component: () => import('pages/CategoryCarousel.vue') },
       { path: '/species', component: () => import('pages/CategoryCarousel.vue') },
       { path: '/planets', component: () => import('pages/CategoryCarousel.vue') },

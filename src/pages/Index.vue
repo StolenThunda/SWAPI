@@ -4,9 +4,9 @@
     <div class="twinkling"></div>
     <div class="clouds"></div>
     <div class="row flex flex-center justify-center q-gutter-md">
-      <h4 class="col-12 text-center text-primary font-jedi q-pt-lg q-pt-xl">
+      <p class="col-12 text-center text-primary font-jedi q-pt-lg q-pt-xl page-header">
         Choose a Category
-      </h4>
+      </p>
       <div
         class="navImage q-ma-lg col-2 col-lg-3 justify-evenly"
         v-for="category in categories"
@@ -77,8 +77,9 @@ export default {
 </script>
 
 <style scoped>
-h4 {
+p {
   z-index: 1000;
+  font-size: 5em;
 }
 .navImage {
   z-index: 100;
@@ -86,6 +87,7 @@ h4 {
   max-width: 25vw;
   width: 33vw;
 }
+
 @keyframes move-twink-back {
   from {
     background-position: 0 0;
@@ -167,7 +169,7 @@ h4 {
   background: #000
     url(https://www.script-tutorials.com/demos/360/images/stars.png) repeat top
     center;
-  z-index: 0;
+    z-index: 0;
 }
 .twinkling {
   background: transparent

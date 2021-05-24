@@ -1,13 +1,14 @@
 <template>
   <q-card>
-    <q-card-section>
+    <!-- <q-card-section>
+      Stat View
       <details>
         <legend>Debug Details</legend>
         <pre>
-        {{ JSON.stringify(renderAttrs, null, 2)}}
+        {{ JSON.stringify($attrs, null, 2)}}
         </pre>
       </details>
-    </q-card-section>
+    </q-card-section> -->
      <q-card-section>
         <div
           class="text-grey text-h6 text-capitalize q-pt-md column text-center no-wrap "
@@ -21,6 +22,7 @@
             </div>
             <div class="col-6">
            {{ v === 'homeworld' ? getHomeWorld(k) : k }}
+           <!-- {{ k }} -->
             </div>
         </div>
         </div>

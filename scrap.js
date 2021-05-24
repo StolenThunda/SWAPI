@@ -1,4 +1,4 @@
-const data = {
+const data {
   fields: {
     starships: [2, 3, 5, 9, 10, 11, 12, 13],
     edited: '2014-12-20T19:49:45.256Z',

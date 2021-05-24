@@ -27,12 +27,15 @@
         :name="'slide-' + (index + 1)"
         :key="item.id"
       >
-        <slide-view :category="category" :datum="item">
-          <template #content>
+        <slide-view
+          :category="category"
+          :datum="item"
+          :order="{index: index + 1 , total: collection.length}">
+          <!-- <template #content> -->
             <starship-detail v-if="category === 'starships'" v-bind="item" />
             <film-view v-if="category === 'films'" v-bind="item" />
             <character-view v-if="['people'].includes(category)" v-bind="item" />
-          </template>
+          <!-- </template> -->
         </slide-view>
       </q-carousel-slide>
     </q-carousel>
@@ -40,15 +43,15 @@
 </template>
 
 <script>
-import swapi from 'src/hooks/swapi.js';
+import SWAPI from 'src/hooks/swapi.js';
 import SlideView from 'src/components/SlideView.vue';
 
 export default {
   components: {
-    // eslint-disable-next-line vue/no-unused-components
+    SlideView,
     StarshipDetail: () => import('src/components/StarshipDetail.vue'),
     FilmView: () => import('src/components/FilmView.vue'),
-    SlideView,
+    CharacterView: () => import('src/components/CharacterView.vue'),
   },
   name: 'CategoryCarousel',
   data: () => ({
@@ -62,7 +65,7 @@ export default {
     this.$root.$on('update-breadcrumb', this.updateCrumb);
     this.category = this.$route.path.replaceAll('/', '');
     this.category = ['characters', 'residents'].includes(this.category) ? 'people' : this.category;
-    this.collection = await swapi.fetchDataCategory(this.category);
+    this.collection = await SWAPI.fetchDataCategory(this.category);
   },
   computed: {
     categoryRoute() {

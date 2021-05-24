@@ -9,8 +9,8 @@
           <div
             class="col-auto text-grey text-caption q-pt-md row no-wrap items-center"
           >
+            Crew: {{ crew }}
             <q-icon name="person" :title="crew + ' crew member(s)'" />
-            {{ crew }}
           </div>
         </div>
       </q-card-section>

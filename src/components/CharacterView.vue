@@ -8,10 +8,12 @@
         <div
           class="col-auto text-grey text-h6 text-capitalize q-pt-md column no-wrap "
         >
-          <div>
-            Gender: <q-icon :name="`gender-${gender}`" />{{
-              gender
-            }}
+          <div class="row">
+            <span>Gender: {{ gender }}</span>
+            <q-icon
+              class="text-h4  col-6"
+              :name="`gender-${gender}`"
+              v-if="['male', 'female'].includes(gender)" />
           </div>
           <div>
             Birth Year: {{ birth_year }}
@@ -52,8 +54,7 @@ export default {
     'id',
   ],
   mounted() {
-    const title = this.datum.name ? this.datum.name : this.datum.title;
-    this.$root.$emit('update-breadcrumb', title);
+    this.$root.$emit('update-breadcrumb', this.name);
   },
 };
 </script>

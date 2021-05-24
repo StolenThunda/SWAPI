@@ -10,13 +10,13 @@
         {{ opening_crawl }}
       </q-card-section>
 
-      <q-card-section v-if="relatedFields">
+      <q-card-section v-if="displayRelatedFields">
         <q-list
           dense
           class="bg-primary q-ma-xs"
         >
           <q-expansion-item
-          v-for="field in relatedFields"
+          v-for="field in displayRelatedFields"
           :key="field[0]"
             accordion
             expand-separator
@@ -38,7 +38,7 @@
             <related-data-view
                :category="field[0]"
               :arrayOfIDs="field[1]"
-              v-for="(field, index) in relatedFields"
+              v-for="(field, index) in displayRelatedFields"
               :key="field[0] + index">
             </related-data-view>
           </q-expansion-item>
@@ -48,6 +48,7 @@
 </template>
 <script>
 import RelatedDataView from './RelatedDataView.vue';
+import SWAPI from '../hooks/swapi.js';
 
 export default {
   components: { RelatedDataView },
@@ -58,14 +59,8 @@ export default {
       this[k] = v;
     });
   },
-  computed: {
-    relatedFields() {
-      const fieldEntries = Object.entries(this.datum);
-      const relationalFields = fieldEntries.filter(
-        ([, v]) => Array.isArray(v) && v.length,
-      );
-      return relationalFields;
-    },
+  methods: {
+    displayRelatedFields: () => SWAPI.relatedFields(this.$attrs),
   },
 };
 </script>

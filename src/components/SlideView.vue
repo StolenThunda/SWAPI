@@ -1,16 +1,22 @@
-/* eslint-disable no-console */
 <template>
+  <q-page>
   <div class="row items-start justify-around">
     <div
-      class="q-py-lg font-jedi-outline text-h2 col-12 text-center ellipsis text-lowercase"
+      class="q-py-lg
+            font-jedi
+            col-12
+            text-h5
+            text-center
+            text-lowercase"
     >
-      {{ datum.name ? datum.name : datum.title }}
+    <div>
+      <sup class="text-left">{{ order.index }} of {{ order.total }}</sup>
+      </div>
+      {{ identity() }}
     </div>
-    <div class="q-pa-lg col-12 col-md-5 full-height">
+    <div class="q-pa-lg offset-2 col">
       <q-img
-        :src="imageSrc"
-        :alt="datum.name"
-        :title="datum.name"
+        :src="imageSrc()"
         spinner-color="primary"
         class=""
         @error="imageLoadError"
@@ -21,9 +27,9 @@
           <q-spinner-gears color="primary" />
         </template>
       </q-img>
-      <!-- <q-skeleton v-if="!datum" type="QAvatar" /> -->
+      <q-skeleton v-if="!datum" type="QAvatar" />
     </div>
-    <div class="offset-1 col-12 col-md-6">
+    <div class="col-12 col-md-8">
       <q-tabs
         v-model="tab"
         dense
@@ -31,65 +37,53 @@
         active-color="primary"
         indicator-color="primary"
       >
-        <!-- align="justify" -->
-        <q-tab name="main" label="Data" />
-        <q-tab name="related" label="Related" />
+        <q-tab name="info" label="Statistics" />
+        <q-tab name="related" label="Related Data" />
       </q-tabs>
       <q-tab-panels v-model="tab" animated class="rounded-borders">
-        <q-tab-panel name="main">
-          <slot name="content">
-            <stat-view v-bind="datum" />
+        <q-tab-panel name="info" class="row flat wrap  flex flex-center">
+          <slot>
+            <stat-view v-bind="datum" class='fit' />
           </slot>
         </q-tab-panel>
-        <q-tab-panel name="related" class="row flat wrap ">
+        <q-tab-panel name="related" class="row flat wrap  flex flex-center">
           <related-data-view
             :category="field[0]"
             :arrayOfIDs="field[1]"
-            v-for="(field, index) in relatedFields"
+            v-for="(field, index) in otherFields"
             :key="field[0] + index"
           />
         </q-tab-panel>
       </q-tab-panels>
     </div>
   </div>
+  </q-page>
 </template>
 
 <script>
-import RelatedDataView from './RelatedDataView.vue';
-import StatView from './StatView.vue';
 import utility from '../hooks/imageUtilities.js';
 import SWAPI from '../hooks/swapi.js';
 
 export default {
   components: {
-    StatView,
-    RelatedDataView,
+    RelatedDataView: () => import('./RelatedDataView.vue'),
+    StatView: () => import('./StatView.vue'),
   },
   name: 'SlideView',
-  props: ['category', 'datum'],
+  props: ['category', 'datum', 'order'],
   data: () => ({
-    relatedFields: null,
-    tab: 'related',
+    otherFields: null,
+    tab: 'info',
     placeholder: utility.NoImageBase64URL,
   }),
   mounted() {
     const title = this.datum.name ? this.datum.name : this.datum.title;
-    // eslint-disable-next-line no-console
-    console.log(SWAPI);
-    this.relatedFields = SWAPI.relatedFields(this.datum);
+    this.otherFields = SWAPI.relatedFields(this.datum);
     this.$root.$emit('update-breadcrumb', title);
   },
-  computed: {
-    imageSrc() {
-      const title = this.datum.name ? this.datum.name : this.datum.title;
-      const defaultImageName = title.replace(/[ /]/g, '_').toLowerCase();
-      const imgSrc = `api/${
-        this.datum.image ? this.datum.image : `${defaultImageName}.jpg`
-      }`;
-      return imgSrc;
-    },
-  },
   methods: {
+    imageSrc() { return utility.ImgSrcFromObject(this.datum); },
+    identity() { return this.datum.name ? this.datum.name : this.datum.title; },
     imageLoadError(e) {
       // eslint-disable-next-line no-console
       console.log('err', e);
