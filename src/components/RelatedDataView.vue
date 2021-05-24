@@ -45,11 +45,11 @@
                 v-bind="detail"
                 v-model="detail.show"
               />
-              <!-- <film-view
+              <film-view
                 v-if="category === 'films'"
                 v-bind="detail"
                 v-model="detail.show"
-              />-->
+              />
               <character-view
                 v-model="detail.show"
                 v-if="['people'].includes(context)"
@@ -146,7 +146,7 @@ export default {
     DataDialog,
     CharacterView: () => import('./CharacterView.vue'),
     StarshipDetail: () => import('./StarshipDetail.vue'),
-    // FilmView: () => import('./FilmView.vue'),
+    FilmView: () => import('./FilmView.vue'),
   },
   name: 'RelatedData',
   props: {

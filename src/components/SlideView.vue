@@ -42,7 +42,7 @@
       </q-tabs>
       <q-tab-panels v-model="tab" animated class="rounded-borders">
         <q-tab-panel name="info" class="row flat wrap  flex flex-center">
-          <slot>
+          <slot class='fit'>
             <stat-view v-bind="datum" class='fit' />
           </slot>
         </q-tab-panel>
