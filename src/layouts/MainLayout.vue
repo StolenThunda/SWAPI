@@ -6,6 +6,8 @@
         <q-toolbar-title>
          <span>star wars visual guide <sup>2</sup></span>
         </q-toolbar-title>
+        <q-space />
+
       </q-toolbar>
     </q-header>
     <q-page-container>

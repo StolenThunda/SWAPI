@@ -1,11 +1,12 @@
 <template>
-  <div class="col-12 col-md-5 shadow-6 bg-accent q-ma-md">
+  <div class="col-12 col-md-4 shadow-6 bg-accent q-ma-md">
     <q-item>
       <q-item-section q-if="!nested" class="text-h6 text-capitalize">
         {{ category }}
       </q-item-section>
     </q-item>
-    <div>
+    <q-item>
+      <q-item-section>
       <q-carousel
         ref="carousel"
         v-model="slide"
@@ -50,11 +51,6 @@
                 v-bind="detail"
                 v-model="detail.show"
               />
-              <character-view
-                v-model="detail.show"
-                v-if="['people'].includes(context)"
-                v-bind="detail"
-              />
             </data-dialog>
           </div>
         </q-carousel-slide>
@@ -85,12 +81,12 @@
           </q-carousel-control>
         </template>
       </q-carousel>
-    </div>
-    <!-- <q-scroll-area
+    </q-item-section>
+    <!-- <q-item-section>
+     <q-scroll-area
       horizontal
       v-if="details.length"
       style="height: 150px"
-      class="gt-xl"
       >
       <div
         class="row flex text-center text-white no-wrap">
@@ -123,15 +119,13 @@
                 v-bind="detail"
                 v-model="detail.show"
               />
-             <character-view
-        v-model="detail.show"
-        v-if="['people'].includes(context)"
-        v-bind="detail" />
             </data-dialog>
           </div>
         </div>
       </div>
-    </q-scroll-area> -->
+    </q-scroll-area>
+    </q-item-section> -->
+    </q-item>
   </div>
 </template>
 
@@ -144,7 +138,7 @@ const { capitalize } = format;
 export default {
   components: {
     DataDialog,
-    CharacterView: () => import('./CharacterView.vue'),
+    // CharacterView: () => import('./CharacterView.vue'),
     StarshipDetail: () => import('./StarshipDetail.vue'),
     FilmView: () => import('./FilmView.vue'),
   },

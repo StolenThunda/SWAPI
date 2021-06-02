@@ -1,31 +1,34 @@
 <template>
   <q-card>
-    <!-- <q-card-section>
-      Stat View
+    <q-card-section>
       <details>
         <legend>Debug Details</legend>
-        <pre>
-        {{ JSON.stringify($attrs, null, 2)}}
-        </pre>
+        <!-- <pre>
+        {{ JSON.stringify($attrs, null, 2) }}
+        </pre> -->
+        <related-data-view
+          :category="field[0]"
+            :arrayOfIDs="field[1]"
+            v-for="(field, index) in relatedFields"
+            :key="field[0] + index" />
       </details>
-    </q-card-section> -->
-     <q-card-section>
+    </q-card-section>
+    <q-card-section>
+      <div
+        class="text-grey text-h6 text-capitalize q-pt-md column text-center no-wrap "
+      >
         <div
-          class="text-grey text-h6 text-capitalize q-pt-md column text-center no-wrap "
-         >
-        <div
-            v-for="(k, v) in renderAttrs"
-            :key="k + v"
-            class="text-capitalize row">
-            <div class="col-6">
-              {{ v.replaceAll('_', ' ') }}:
-            </div>
-            <div class="col-6">
-           {{ v === 'homeworld' ? getHomeWorld(k) : k }}
-           <!-- {{ k }} -->
-            </div>
+          v-for="(k, v) in renderAttrs"
+          :key="k + v"
+          class="text-capitalize row"
+        >
+          <div class="col-6">{{ v.replaceAll("_", " ") }}:</div>
+          <div class="col-6">
+            {{ v === "homeworld" ? homeplanet : k }}
+            <!-- {{ k }} -->
+          </div>
         </div>
-        </div>
+      </div>
     </q-card-section>
   </q-card>
 </template>
@@ -36,30 +39,41 @@ import SWAPI from '../hooks/swapi.js';
 export default {
   name: 'StatViewer',
   data: () => ({
-    homeworld: '',
+    homeplanet: '',
   }),
   computed: {
     renderAttrs() {
-      const filterKeys = ['id', 'name', 'title', 'edited', 'created', 'image', 'show'];
+      const filterKeys = [
+        'id',
+        'name',
+        'title',
+        'edited',
+        'created',
+        'image',
+        'show',
+      ];
       const arrayAttrs = Object.entries(this.$attrs);
       const arrayAsFilter = arrayAttrs.filter(
         ([key, value]) => !Array.isArray(value) && !filterKeys.includes(key),
       );
       const filterObject = Object.fromEntries(arrayAsFilter);
-      if (filterObject.homeworld) filterObject.homeplanet = this.getHomeWorld();
       return filterObject;
     },
+    relatedFields() {
+      return SWAPI.relatedFields(this.$attrs);
+    },
+  },
+  async created() {
+    this.homeplanet = await this.getHomeWorld(this.$attrs.homeworld);
   },
   methods: {
     async getHomeWorld(id = this.$attrs.homeworld) {
       // eslint-disable-next-line no-return-await
-      return await SWAPI.fetchOne('planets', id, 'name')
-        .then((planet) => {
-          // eslint-disable-next-line no-console
-          console.log('planet', planet);
-          return planet;
-        });
-      // eslint-disable-next-line no-console
+      return await SWAPI.fetchOne('planets', id, 'name').then((planet) => {
+        // eslint-disable-next-line no-console
+        console.log('planet', planet);
+        return planet;
+      });
     },
   },
 };
