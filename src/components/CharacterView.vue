@@ -12,7 +12,7 @@
             <span>Gender: {{ gender }}</span>
             <q-icon
               class="text-h4  col-6"
-              :name="`gender-${gender}`"
+              :name="`mdi-gender-${gender}`"
               v-if="['male', 'female'].includes(gender)" />
           </div>
           <div>

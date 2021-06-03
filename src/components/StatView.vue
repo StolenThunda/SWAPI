@@ -38,6 +38,9 @@ import SWAPI from '../hooks/swapi.js';
 
 export default {
   name: 'StatViewer',
+  components: {
+    RelatedDataView: () => import('./RelatedDataView'),
+  },
   data: () => ({
     homeplanet: '',
   }),

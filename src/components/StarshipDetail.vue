@@ -10,7 +10,7 @@
             class="col-auto text-grey text-caption q-pt-md row no-wrap items-center"
           >
             Crew: {{ crew }}
-            <q-icon name="person" :title="crew + ' crew member(s)'" />
+            <q-icon name="mdi-account" :title="crew + ' crew member(s)'" />
           </div>
         </div>
       </q-card-section>
@@ -20,7 +20,9 @@
             class="col-auto text-grey text-h6 text-capitalize q-pt-md column no-wrap "
           >
           <div>
-            HyperDrive Rating: <q-rating
+            HyperDrive Rating:
+            <q-rating
+            icon="mdi-star"
           v-model="rating"
           :max="5"
           size="32px"

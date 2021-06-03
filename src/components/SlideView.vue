@@ -1,20 +1,20 @@
 <template>
-  <q-page>
-  <div class="row items-start justify-around">
+  <!-- <q-page> -->
+  <div class="fit row items-start justify-around">
     <div
       class="q-py-lg
             font-jedi
             col-12
-            text-h5
+            text-h3
             text-center
             text-lowercase"
     >
     <div>
-      <sup class="text-left">{{ order.index }} of {{ order.total }}</sup>
+      <sup class="text-left text-h5">{{ order.index }} of {{ order.total }}</sup>
       </div>
       {{ identity() }}
     </div>
-    <div class="q-pa-lg offset-2 col">
+    <div class="q-pa-lg offset-1 col">
       <q-img
         :src="imageSrc()"
         spinner-color="primary"
@@ -46,18 +46,18 @@
             <stat-view v-bind="datum" class='fit' />
           </slot>
         </q-tab-panel>
-        <q-tab-panel name="related" class="row flat wrap  flex flex-center">
+        <q-tab-panel v-if="tab !== 'info'" name="related" class="row flat wrap  flex flex-center">
           <related-data-view
+            v-for="(field, index) in otherFields"
             :category="field[0]"
             :arrayOfIDs="field[1]"
-            v-for="(field, index) in otherFields"
             :key="field[0] + index"
           />
         </q-tab-panel>
       </q-tab-panels>
     </div>
   </div>
-  </q-page>
+  <!-- </q-page> -->
 </template>
 
 <script>
@@ -75,11 +75,15 @@ export default {
     otherFields: null,
     tab: 'info',
     placeholder: utility.NoImageBase64URL,
+    currentDatum: null,
   }),
-  mounted() {
+  created() {
     const title = this.datum.name ? this.datum.name : this.datum.title;
-    this.otherFields = SWAPI.relatedFields(this.datum);
-    this.$root.$emit('update-breadcrumb', title);
+    if (this.currentDatum !== this.datum) {
+      this.otherFields = SWAPI.relatedFields(this.datum);
+      this.$root.$emit('update-breadcrumb', title);
+      this.currentDatum = this.datum;
+    }
   },
   methods: {
     imageSrc() { return utility.ImgSrcFromObject(this.datum); },

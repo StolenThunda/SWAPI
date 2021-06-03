@@ -3,12 +3,59 @@
     <q-item>
       <q-item-section q-if="!nested" class="text-h6 text-capitalize">
         {{ category }}
+        <q-menu>
+    <q-toggle v-model="alt" label="Alternate Layout" />
+
+        </q-menu>
       </q-item-section>
     </q-item>
     <q-item>
-      <q-item-section>
+    <q-item-section v-if="alt">
+     <q-scroll-area
+      horizontal
+      v-if="details.length"
+      style="height: 150px"
+      >
+      <div
+        class="row flex text-center text-white no-wrap">
+        <div
+          v-for="detail in details"
+          :key="detail.id"
+          class="q-px-md q-ma-auto column flex items-center"
+        >
+          <div class="col-2 q-mb-lg" @click="showDetail(detail)">
+            {{ getTitle(detail) }}
+            <q-avatar class="text-center flex q-pt-md" size="5rem">
+              <q-img
+                :placeholder-src="placeholder"
+                :src="getImage(detail)"
+                contain
+              >
+                <template v-slot:loading>
+                  <q-spinner-gears color="primary" />
+                </template>
+              </q-img>
+            </q-avatar>
+            <data-dialog :detail="detail" v-model="detail.show">
+               <starship-detail
+                v-if="category === 'starships'"
+                v-bind="detail"
+                v-model="detail.show"
+              />
+              <film-view
+                v-if="category === 'films'"
+                v-bind="detail"
+                v-model="detail.show"
+              />
+            </data-dialog>
+          </div>
+        </div>
+      </div>
+    </q-scroll-area>
+    </q-item-section>
+      <q-item-section v-else>
       <q-carousel
-        ref="carousel"
+        ref="related_carousel"
         v-model="slide"
         transition-prev="flip-left"
         transition-next="flip-right"
@@ -66,8 +113,8 @@
               dense
               color="orange"
               text-color="black"
-              icon="arrow_left"
-              @click="$refs.carousel.previous()"
+              icon="mdi-arrow-left"
+              @click="$refs.related_carousel.previous()"
             />
             <q-btn
               push
@@ -75,56 +122,13 @@
               dense
               color="orange"
               text-color="black"
-              icon="arrow_right"
-              @click="$refs.carousel.next()"
+              icon="mdi-arrow-right"
+              @click="$refs.related_carousel.next()"
             />
           </q-carousel-control>
         </template>
       </q-carousel>
     </q-item-section>
-    <!-- <q-item-section>
-     <q-scroll-area
-      horizontal
-      v-if="details.length"
-      style="height: 150px"
-      >
-      <div
-        class="row flex text-center text-white no-wrap">
-        <div
-          v-for="detail in details"
-          :key="detail.id"
-          class="q-px-md q-ma-auto column flex items-center"
-        >
-          <div class="col-2 q-mb-lg" @click="showDetail(detail)">
-            {{ detail.name ? detail.name : detail.title }}
-            <q-avatar class="text-centerflex q-pt-md" size="5rem">
-              <q-img
-                :placeholder-src="placeholder"
-                :src="imgSrc(detail)"
-                contain
-              >
-                <template v-slot:loading>
-                  <q-spinner-gears color="primary" />
-                </template>
-              </q-img>
-            </q-avatar>
-            <data-dialog :detail="detail" v-model="detail.show">
-               <starship-detail
-                v-if="category === 'starships'"
-                v-bind="detail"
-                v-model="detail.show"
-              />
-              <film-view
-                v-if="category === 'films'"
-                v-bind="detail"
-                v-model="detail.show"
-              />
-            </data-dialog>
-          </div>
-        </div>
-      </div>
-    </q-scroll-area>
-    </q-item-section> -->
     </q-item>
   </div>
 </template>
@@ -135,6 +139,7 @@ import DataDialog from './DataDialog.vue';
 import libImages from '../hooks/imageUtilities.js';
 
 const { capitalize } = format;
+
 export default {
   components: {
     DataDialog,
@@ -160,6 +165,7 @@ export default {
   data: () => ({
     show: {},
     context: null,
+    alt: true,
     details: [],
     slide: null,
     placeholder: libImages.NoImageBase64URL,
@@ -180,7 +186,6 @@ export default {
         spinner: QSpinnerGears,
       });
       const id = this.arrayOfIDs[i];
-      // eslint-disable-next-line no-unused-vars
       // eslint-disable-next-line no-await-in-loop
       const res = await fetch(`api/${this.context}/${id}`);
       // eslint-disable-next-line no-await-in-loop
@@ -196,6 +201,13 @@ export default {
   },
   computed: {},
   methods: {
+    go(dir) {
+      if (dir > 0) {
+        this.$refs.related_carousel.next();
+      } else {
+        this.$refs.related_carousel.previous();
+      }
+    },
     getImage(dtl) {
       return libImages.ImgSrcFromObject(dtl);
     },
@@ -207,5 +219,3 @@ export default {
   },
 };
 </script>
-
-<style></style>
