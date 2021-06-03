@@ -1,8 +1,8 @@
 <template>
   <q-card>
     <q-card-section>
-      <details>
-        <legend>Debug Details</legend>
+      <details v-if="showDetail">
+        <summary>Related Details</summary>
         <!-- <pre>
         {{ JSON.stringify($attrs, null, 2) }}
         </pre> -->
@@ -38,6 +38,12 @@ import SWAPI from '../hooks/swapi.js';
 
 export default {
   name: 'StatViewer',
+  props: {
+    showDetail: {
+      type: Boolean,
+      default: false,
+    },
+  },
   components: {
     RelatedDataView: () => import('./RelatedDataView'),
   },

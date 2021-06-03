@@ -165,7 +165,7 @@ export default {
   data: () => ({
     show: {},
     context: null,
-    alt: true,
+    alt: false,
     details: [],
     slide: null,
     placeholder: libImages.NoImageBase64URL,

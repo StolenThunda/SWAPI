@@ -23,7 +23,7 @@
         </q-img>
       </slot>
       <slot>
-        <stat-view v-bind="detail" class="fit" />
+        <stat-view v-bind="detail" class="fit" :showDetail="true" />
       </slot>
     </div>
   </q-dialog>
